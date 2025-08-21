@@ -3,7 +3,7 @@ pipeline{
     stages {
         stage('Checkout from Git'){
             steps{
-                git branch: 'master', url: 'https://github.com/vijay3639/Chat-gpt.git'
+                git branch: 'master', url: 'https://github.com/John241198/Chat-gpt.git'
             }
         }
         stage('Terraform version'){
