@@ -31,9 +31,9 @@ resource "aws_security_group" "Jenkins-sg" {
 
 
 resource "aws_instance" "web" {
-  ami                    = "ami-0f918f7e67a3323f0"  #change your ami value according to your aws instance
+  ami                    = "ami-0b6d9d3d33ba97d99"  #change your ami value according to your aws instance
   instance_type          = "t2.large"
-  key_name               = "chatgpt"
+  key_name               = "demoPPK"
   vpc_security_group_ids = [aws_security_group.Jenkins-sg.id]
   user_data              = templatefile("./script.sh", {})
 
@@ -45,9 +45,9 @@ resource "aws_instance" "web" {
   }
 }
 resource "aws_instance" "web2" {
-  ami                    = "ami-0f918f7e67a3323f0" #change your ami value according to your aws instance 
+  ami                    = "ami-0b6d9d3d33ba97d99" #change your ami value according to your aws instance 
   instance_type          = "t2.medium"
-  key_name               = "chatgpt"
+  key_name               = "demoPPK"
   vpc_security_group_ids = [aws_security_group.Jenkins-sg.id]
   tags = {
     Name = "Monitering via grafana"
