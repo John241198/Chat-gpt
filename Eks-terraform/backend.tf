@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
-    bucket = "chatgpt25" # Replace with your actual S3 bucket name
+    bucket = "chatgpt26" # Replace with your actual S3 bucket name
     key    = "EKS/terraform.tfstate"
-    region = "ap-south-1"
+    region = "us-east-1"
   }
 }
