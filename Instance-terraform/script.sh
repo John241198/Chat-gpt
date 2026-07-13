@@ -80,37 +80,13 @@ sudo apt-get install -y temurin-21-jdk
 /usr/bin/java --version
 
 # Install Jenkins
-curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | sudo tee /usr/share/keyrings/jenkins-keyring.asc > /dev/null
-echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/" | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
-sudo apt-get update -y
-# Jenkins package expects fontconfig package; Java is already installed above.
-sudo apt-get install -y fontconfig
-
-# Retry Jenkins install because apt can still transiently fail during first-boot provisioning.
-for i in 1 2 3; do
-  if sudo apt-get install -y jenkins; then
-    break
-  fi
-  echo "Jenkins install attempt $i failed, retrying in 15s..."
-  sleep 15
-  sudo apt-get update -y
-done
-
-if ! dpkg -s jenkins >/dev/null 2>&1; then
-  echo "Jenkins package could not be installed after retries."
-  exit 1
-fi
-
-sudo systemctl daemon-reload
-sudo systemctl enable jenkins
-sudo systemctl restart jenkins
-
-# Validate Jenkins service and capture logs if startup fails.
-if ! sudo systemctl is-active --quiet jenkins; then
-  echo "Jenkins service failed to start. Recent logs:"
-  sudo journalctl -u jenkins -n 100 --no-pager
-  exit 1
-fi
+sudo wget -O /etc/apt/keyrings/jenkins-keyring.asc \
+  https://pkg.jenkins.io/debian-stable/jenkins.io-2026.key
+echo "deb [signed-by=/etc/apt/keyrings/jenkins-keyring.asc]" \
+  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+  /etc/apt/sources.list.d/jenkins.list > /dev/null
+sudo apt update
+sudo apt install jenkins -y
 
 # Install Docker
 sudo apt-get update -y
